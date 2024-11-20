@@ -1,1 +1,41 @@
-# This file will contain a script in orde to start up the system (all microservices) 
+version: "3.9"
+
+services:
+  # MySQL Database for PostService
+  postservice-db:
+    image: mysql:8.0
+    container_name: postservice-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: postservice_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - postservice-db-data:/var/lib/mysql
+    networks:
+      - microservices-network
+
+  # Placeholder for other databases (add as needed)
+  # Example for another MySQL instance:
+  # reviewservice-db:
+  #   image: mysql:8.0
+  #   container_name: reviewservice-db
+  #   restart: always
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: root
+  #     MYSQL_DATABASE: reviewservice_db
+  #   ports:
+  #     - "3307:3306"
+  #   volumes:
+  #     - reviewservice-db-data:/var/lib/mysql
+  #   networks:
+  #     - microservices-network
+
+networks:
+  microservices-network:
+    driver: bridge
+
+volumes:
+  postservice-db-data:
+  # reviewservice-db-data: # Uncomment if you add more databases
